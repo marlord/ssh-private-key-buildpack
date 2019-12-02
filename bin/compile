@@ -11,6 +11,10 @@ function indent() {
 ENV_DIR=${3:-}
 ssh_key="$(cat $ENV_DIR/SSH_KEY)"
 ssh_hosts="$(cat $ENV_DIR/SSH_HOSTS)"
+ssh_port="$(cat $ENV_DIR/SSH_PORT)"
+if [ "$ssh_port" == "" ]; then
+	ssh_port="20"
+fi
 
 if [ "$ssh_key" != "" ]; then
 	echo "-----> Running SSH private key setup"
@@ -23,7 +27,7 @@ if [ "$ssh_key" != "" ]; then
 
 	IFS=',' read -ra HOST <<< "$ssh_hosts"
 	for i in "${HOST[@]}"; do
-		ssh -oStrictHostKeyChecking=no -T $i 2>&1 | indent
+		ssh -p "$ssh_port" -oStrictHostKeyChecking=no -T $i 2>&1 | indent
 	done
 
 	exit 0
