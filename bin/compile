@@ -12,8 +12,9 @@ ENV_DIR=${3:-}
 ssh_key="$(cat $ENV_DIR/SSH_KEY)"
 ssh_hosts="$(cat $ENV_DIR/SSH_HOSTS)"
 ssh_port="$(cat $ENV_DIR/SSH_PORT)"
+
 if [ "$ssh_port" == "" ]; then
-	ssh_port="20"
+	ssh_port="22"
 fi
 
 if [ "$ssh_key" != "" ]; then
